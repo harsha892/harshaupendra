@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Draggable - Snap to element or grid</title>
+    <link rel="stylesheet" href="vendors/css/bootstrap.min.css">
+    <script src="vendors/js/jquery.min.js"></script>
+    <script src="vendors/js/jquery-ui.min.js"></script>
+    <script src="vendors/js/html2canvas.js"></script>
+    <script src="vendors/js/FileSaver.js"></script>
+    <script src="vendors/js/printThis.js"></script>
+    <style>
+    .draggable {
+        width: 25px;
+        height: 25px;
+        padding: 2px 3px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 14px;
+        background: red;
+        color: #fff;
+    }
+
+    .ui-widget-header {
+        background-size: contain;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    .ui-widget-header p,
+    .ui-widget-content p {
+        margin: 0;
+    }
+
+    #snaptarget {
+        width: 100%;
+        height: 500px;
+    }
+
+    .drag_list li {
+        border-bottom: 8px;
+        width: calc(100% / 2 - 10px);
+    }
+    </style>
+    <script>
+    $(function() {
+        $(".draggable").draggable({ snap: true });
+        /*        $("#draggable2").draggable({ snap: ".ui-widget-header" });
+                $("#draggable3").draggable({ snap: ".ui-widget-header", snapMode: "outer" });
+                $("#draggable4").draggable({ grid: [20, 20] });
+                $("#draggable5").draggable({ grid: [80, 80] });*/
+
+        $("#btnSave").click(function() {
+            $('#snaptarget').printThis();
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-6">
+                    <h1>Drag and Drop</h1>
+                    <div id="snaptarget" class="ui-widget-header" style="background-image: url(img/house.jpg)"> </div>
+                </div>
+                <div class="col-sm-3">
+                    <h1>Drag this list</h1>
+                    <ul class="list-inline drag_list">
+                        <li>
+                            <div id="draggable" class="draggable ui-widget-content">
+                                <span>1</span>
+                            </div>
+                            <p>1) Bead Room</p>
+                        </li>
+                        <li>
+                            <div id="draggable" class="draggable ui-widget-content">
+                                <span>2</span>
+                            </div>
+                            <p>2) Bath Room</p>
+                        </li>
+                        <li>
+                            <div id="draggable" class="draggable ui-widget-content">
+                                <span>3</span>
+                            </div>
+                            <p>3) Kitchen</p>
+                        </li>
+                    </ul>
+                    <div>
+                        <p>Default (snap: true), snaps to all other draggable elements</p>
+                    </div>
+                    <!-- <div id="draggable2" class="draggable ui-widget-content">
+                        <p>I only snap to the big box</p>
+                    </div>
+                    <div id="draggable3" class="draggable ui-widget-content">
+                        <p>I only snap to the outer edges of the big box</p>
+                    </div>
+                    <div id="draggable4" class="draggable ui-widget-content">
+                        <p>I snap to a 20 x 20 grid</p>
+                    </div>
+                    <div id="draggable5" class="draggable ui-widget-content">
+                        <p>I snap to a 80 x 80 grid</p>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <input type='button' id='btnSave' value='Print'>
+            </div>
+        </div>
+    </div>
+    <br style="clear:both">
+</body>
+
+</html>
