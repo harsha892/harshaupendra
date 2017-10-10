@@ -108,23 +108,23 @@
                             <p>Drawing No:</p>
                             <p>KL-012345</p>
                         </div>
-                        <div class="draggable-bb">
-                            <label for="id1" id="draggable" class="draggable ui-widget-content" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <input type="checkbox" class="hide" value="id1"> 1
-                            </label>
-                        </div>
                         <div id="snaptarget" class="ui-widget-header">
-                            <img src="img/house.jpg" alt="" id="scream" class="img-responsive">
+                            <img src="https://thumb1.shutterstock.com/display_pic_with_logo/1283590/391262890/stock-vector-beautiful-hand-drawn-sketch-steampunk-mechanism-time-machine-391262890.jpg" alt="" id="scream" class="img-responsive">
                         </div>
                         <div class="canvas-box hide">
                             <h4>Result Image</h4>
-                            <canvas id="myCanvas" width="534px" height="210px"></canvas>
+                            <canvas id="myCanvas"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="value-box">
                         <form>
+                            <div class="draggable-bb">
+                                <label for="id1" id="draggable" class="draggable ui-widget-content" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                    <input type="checkbox" class="hide" value="id1"> 1
+                                </label>
+                            </div>
                             <div class="form-group">
                                 <label for="value">Value</label>
                                 <input type="text" class="form-control" id="value" placeholder="value">
@@ -242,7 +242,7 @@
     var context = canvas.getContext('2d');
 
     var sources = {
-        darthVader: 'img/house.jpg',
+        darthVader: 'https://thumb1.shutterstock.com/display_pic_with_logo/1283590/391262890/stock-vector-beautiful-hand-drawn-sketch-steampunk-mechanism-time-machine-391262890.jpg',
         yoda: 'img/marker.png'
     };
 
@@ -251,13 +251,20 @@
         $(".draggable").draggable({ snap: true });
         $('.getcanvasImage').click(function() {
             $('.canvas-box').removeClass('hide');
-            var coardinates = $('#draggable').css(["left", "top"])
-            var markerCordX = Number(coardinates.left.split("px")[0]);
-            var markerCordY = Number(coardinates.top.split("px")[0]);
-            var numCordX = Number(coardinates.left.split("px")[0]) + 9;
-            var numCordY = Number(coardinates.top.split("px")[0]) + 17;
+            var coardinates = $('#draggable').css(["left", "top"]);
+            var imagewidth = $("#snaptarget img").width() - 6;
+            var imageHeight = $("#snaptarget img").height();
+            document.getElementById('myCanvas').setAttribute("width", imagewidth + 6);
+            document.getElementById('myCanvas').setAttribute("height", imageHeight);
+
+            console.log("width", $("#snaptarget img").width());
+            var markerCordX = imagewidth + Number(coardinates.left.split("px")[0]);
+            var markerCordY = Number(coardinates.top.split("px")[0]) - 60;
+            var numCordX = imagewidth + Number(coardinates.left.split("px")[0]) + 56;
+            var numCordY = Number(coardinates.top.split("px")[0]) - 44;
+            console.log(Number(coardinates.top.split("px")[0]), markerCordX, markerCordY);
             loadImages(sources, function(images) {
-                context.drawImage(images.darthVader, 0, 0, 540, 210);
+                context.drawImage(images.darthVader, 0, 0, imagewidth + 6, imageHeight);
                 context.drawImage(images.yoda, markerCordX, markerCordY, 25, 32);
                 context.font = "14px Arial";
                 context.fontWeight = "bold";
