@@ -14,14 +14,30 @@
     <style>
     .draggable {
         width: 25px;
-        height: 25px;
+        height: 32px;
         padding: 2px 3px;
         box-sizing: border-box;
         text-align: center;
         font-size: 14px;
-        background: red;
-        color: #fff;
+        background-image: url(img/marker.png);
+        color: black;
+        position: relative;
+        background-size: cover;
+        background-position: top;
+        cursor: grab;
+        display: inline-block;
     }
+    /* .draggable:after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+        background: orange;
+        bottom: 0;
+        top: 83%;
+        left: 30%;
+    } */
 
     .ui-widget-header {
         background-size: contain;
@@ -36,12 +52,41 @@
 
     #snaptarget {
         width: 100%;
-        height: 500px;
+        /* height: 500px; */
+        border: 3px dashed black;
     }
 
     .drag_list li {
         border-bottom: 8px;
-        width: calc(100% / 2 - 10px);
+    }
+
+    .item_selection {
+        display: inline-block;
+    }
+
+    .drawing-id {
+        border: 3px dashed black;
+        border-bottom: 0;
+        padding: 5px 15px;
+    }
+
+    .image-block {
+        background: #eee;
+        margin-top: 15px;
+    }
+
+    .value-box {
+        margin-top: 15px;
+        border: 2px solid #eee;
+        padding: 10px;
+    }
+
+    .no-padding {
+        padding: 0;
+    }
+
+    .clearfix {
+        clear: both;
     }
     </style>
     <script>
@@ -52,9 +97,12 @@
                 $("#draggable4").draggable({ grid: [20, 20] });
                 $("#draggable5").draggable({ grid: [80, 80] });*/
 
-        $("#btnSave").click(function() {
-            $('#snaptarget').printThis();
-        });
+        $('.getcanvasImage').click(function() {
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            var img = document.getElementById("scream");
+            ctx.drawImage(img, 10, 10);
+        })
     });
     </script>
 </head>
@@ -64,19 +112,62 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="col-sm-6">
-                    <h1>Drag and Drop</h1>
-                    <div id="snaptarget" class="ui-widget-header" style="background-image: url(img/house.jpg)"> </div>
+                    <div class="image-block">
+                        <div class="drawing-id">
+                            <p>Drawing No:</p>
+                            <p>KL-012345</p>
+                        </div>
+                        <div id="snaptarget" class="ui-widget-header">
+                            <img src="img/house.jpg" alt="" id="scream" class="img-responsive">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-3">
-                    <h1>Drag this list</h1>
-                    <ul class="list-inline drag_list">
-                        <li>
-                            <div id="draggable" class="draggable ui-widget-content">
-                                <span>1</span>
+                    <div class="value-box">
+                        <form>
+                            <div class="form-group">
+                                <label for="value">Value</label>
+                                <input type="text" class="form-control" id="value" placeholder="value">
                             </div>
-                            <p>1) Bead Room</p>
-                        </li>
-                        <li>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-3">
+                                    <label for="id1" id="draggable" class="draggable ui-widget-content">
+                                        <input type="checkbox" class="hide" value="id1"> 1
+                                    </label>
+                                </div>
+                                <!-- <div >
+                                    <span>1</span>
+                                </div> -->
+                                <div class="col-xs-12 col-sm-9 no-padding">
+                                    <select name="" id="input" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="">Canvas</option>
+                                        <option value="">Angle</option>
+                                        <option value="">Main Angle</option>
+                                        <option value="">Full canvas</option>
+                                        <option value="">90 deg</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr>
+                            <div class="form-group text-right">
+                                <a class="btn btn-primary getcanvasImage">Submit</a>
+                            </div>
+                        </form>
+                        <ul class="list-inline drag_list">
+                            <!-- <li>
+                                <form action="" method="POST" role="form">
+                                    <div class="form-group">
+                                        <label for="value">Value</label>
+                                        <input type="text" class="form-control" id="value" placeholder="value">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </li>
+                            <li>
+                            </li> -->
+                            <!-- <li>
                             <div id="draggable" class="draggable ui-widget-content">
                                 <span>2</span>
                             </div>
@@ -87,12 +178,9 @@
                                 <span>3</span>
                             </div>
                             <p>3) Kitchen</p>
-                        </li>
-                    </ul>
-                    <div>
-                        <p>Default (snap: true), snaps to all other draggable elements</p>
-                    </div>
-                    <!-- <div id="draggable2" class="draggable ui-widget-content">
+                        </li> -->
+                        </ul>
+                        <!-- <div id="draggable2" class="draggable ui-widget-content">
                         <p>I only snap to the big box</p>
                     </div>
                     <div id="draggable3" class="draggable ui-widget-content">
@@ -104,11 +192,41 @@
                     <div id="draggable5" class="draggable ui-widget-content">
                         <p>I snap to a 80 x 80 grid</p>
                     </div> -->
+                    </div>
                 </div>
             </div>
             <div class="col-xs-12">
-                <input type='button' id='btnSave' value='Print'>
+                <canvas id="myCanvas" width="661px" height="257px">
+                    Your browser does not support the HTML5 canvas tag.
+                </canvas>
             </div>
+            <div class="col-xs-12">
+                <hr>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Balloon No</th>
+                            <th>Measurement Type</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Outer Dimension</td>
+                            <td>28.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Inner Dimension</td>
+                            <td>10.2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div class="col-xs-12">
+                <input type='button' id='btnSave' value='Print'>
+            </div> -->
         </div>
     </div>
     <br style="clear:both">
