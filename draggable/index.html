@@ -89,22 +89,6 @@
         clear: both;
     }
     </style>
-    <script>
-    $(function() {
-        $(".draggable").draggable({ snap: true });
-        /*        $("#draggable2").draggable({ snap: ".ui-widget-header" });
-                $("#draggable3").draggable({ snap: ".ui-widget-header", snapMode: "outer" });
-                $("#draggable4").draggable({ grid: [20, 20] });
-                $("#draggable5").draggable({ grid: [80, 80] });*/
-
-        $('.getcanvasImage').click(function() {
-            var canvas = document.getElementById("myCanvas");
-            var ctx = canvas.getContext("2d");
-            var img = document.getElementById("scream");
-            ctx.drawImage(img, 10, 10);
-        })
-    });
-    </script>
 </head>
 
 <body>
@@ -120,6 +104,8 @@
                         <div id="snaptarget" class="ui-widget-header">
                             <img src="img/house.jpg" alt="" id="scream" class="img-responsive">
                         </div>
+                        <p>Canvas Image</p>
+                        <canvas id="myCanvas" width="534px" height="210px"></canvas>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -196,9 +182,9 @@
                 </div>
             </div>
             <div class="col-xs-12">
-                <canvas id="myCanvas" width="661px" height="257px">
+                <!-- <canvas id="myCanvas2" width="661px" height="257px" >
                     Your browser does not support the HTML5 canvas tag.
-                </canvas>
+                </canvas> -->
             </div>
             <div class="col-xs-12">
                 <hr>
@@ -230,6 +216,58 @@
         </div>
     </div>
     <br style="clear:both">
+    <script>
+    $(function() {
+        $(".draggable").draggable({ snap: true });
+        /*        $("#draggable2").draggable({ snap: ".ui-widget-header" });
+                $("#draggable3").draggable({ snap: ".ui-widget-header", snapMode: "outer" });
+                $("#draggable4").draggable({ grid: [20, 20] });
+                $("#draggable5").draggable({ grid: [80, 80] });*/
+
+        $('.getcanvasImage').click(function() {
+            var canvas = document.getElementById("myCanvas2");
+            var ctx = canvas.getContext("2d");
+            var img = document.getElementById("scream");
+            ctx.drawImage(img, 10, 10);
+        });
+
+
+    });
+
+    function loadImages(sources, callback) {
+        var images = {};
+        var loadedImages = 0;
+        var numImages = 0;
+        // get num of sources
+        for (var src in sources) {
+            numImages++;
+        }
+        for (var src in sources) {
+            images[src] = new Image();
+            images[src].onload = function() {
+                if (++loadedImages >= numImages) {
+                    callback(images);
+                }
+            };
+            images[src].src = sources[src];
+        }
+    }
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+
+    var sources = {
+        darthVader: 'img/house.jpg',
+        yoda: 'img/marker.png'
+    };
+
+    loadImages(sources, function(images) {
+        context.drawImage(images.darthVader, 0, 0, 534, 210);
+        context.drawImage(images.yoda, 350, 60, 25, 32);
+        context.font = "14px Arial";
+        context.fontWeight = "bold";
+        context.fillText("1",358, 76);
+    });
+    </script>
 </body>
 
 </html>
